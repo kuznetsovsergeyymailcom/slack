@@ -2,12 +2,13 @@ package services;
 
 import dao.UserDao;
 import dao.UserDaoHibernateImpl;
+import dao.UserDaoJdbcImpl;
 import entities.User;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private UserDao userDao = new UserDaoHibernateImpl();
+    private UserDao userDao = new UserDaoJdbcImpl();
     public List<User> getAllUsers(){
         return userDao.getAllUsers();
     }
