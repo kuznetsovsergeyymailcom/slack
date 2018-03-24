@@ -3,19 +3,37 @@ package dao;
 import entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 import java.util.TimeZone;
 
 public class UserDaoHibernateImpl implements UserDao{
+    private Properties properties = new Properties();
+    private Configuration configuration = new Configuration();
     private SessionFactory sessionFactory = null;
 
     public UserDaoHibernateImpl(){
-        sessionFactory = new Configuration().
-                addAnnotatedClass(User.class).configure()
-                .buildSessionFactory();
+        try {
+            properties.load(new FileInputStream("..\\webapps\\ROOT\\WEB-INF\\classes\\hibernate.properties"));
+            configuration.configure("hibernate.cfg.xml").addProperties(properties);
+            configuration.addAnnotatedClass(User.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                .applySettings(configuration.getProperties()).build();
+
+        sessionFactory = configuration
+                .buildSessionFactory(serviceRegistry);
         sessionFactory.withOptions().jdbcTimeZone(TimeZone.getTimeZone("UTC"));
+
     }
 
     @Override
