@@ -17,7 +17,7 @@ import java.util.List;
 public class UpdateUserServlet extends HttpServlet{
     private static int id = 0;
 
-    private UserService crudServiceImpl = new UserServiceImpl();
+    private UserService crudServiceImpl = UserServiceImpl.getInstance();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String ids = req.getParameter("id");

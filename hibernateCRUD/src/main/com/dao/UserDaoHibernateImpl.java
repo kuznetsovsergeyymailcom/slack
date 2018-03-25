@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.TimeZone;
 
 public class UserDaoHibernateImpl implements UserDao{
+    private DBHelper dbHelper = DBHelper.getInstance();
     private Configuration configuration;
     private SessionFactory sessionFactory;
 
     public UserDaoHibernateImpl(){
-        configuration = DBHelper.getConfiguration();
+        configuration = dbHelper.getConfiguration();
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(this.configuration.getProperties()).build();
 
         sessionFactory = this.configuration.buildSessionFactory(serviceRegistry);

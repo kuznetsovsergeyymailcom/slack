@@ -11,25 +11,31 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DBHelper {
+    private static DBHelper dbHelper = null;
     private static Properties properties = new Properties();
-    private static Configuration configuration = null;
-    private static Connection connection = null;
+    private Configuration configuration = getConfiguration();
+    private Connection connection = getConnection();
 
-    static {
+    private DBHelper(){}
+
+    public static DBHelper getInstance(){
+        if(dbHelper == null){
+            dbHelper = new DBHelper();
+        }
+
+        return dbHelper;
+    }
+
+    private void initProperties(){
         try {
             properties.load(new FileInputStream("..\\webapps\\ROOT\\WEB-INF\\classes\\hibernate.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        configuration = getConfiguration();
-        connection = getConnection();
-
-    }
-    private DBHelper(){
-
     }
 
-    public static Connection getConnection(){
+    public Connection getConnection(){
+        initProperties();
         if(connection == null){
             try {
                 String connectionString = buildConnectionString();
@@ -43,7 +49,8 @@ public class DBHelper {
         return connection;
     }
 
-    public static Configuration getConfiguration(){
+    public Configuration getConfiguration(){
+        initProperties();
         if(configuration == null){
             configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml").addProperties(properties);
@@ -54,7 +61,7 @@ public class DBHelper {
     }
 
 
-    private static String buildConnectionString(){
+    private String buildConnectionString(){
         String driver = properties.getProperty("connection.driver_class");
         try {
             Class.forName(driver);

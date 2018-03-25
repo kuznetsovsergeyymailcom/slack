@@ -16,7 +16,7 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/")
 public class ShowUsersServlet extends HttpServlet {
-    private UserService crudServiceImpl = new UserServiceImpl();
+    private UserService crudServiceImpl = UserServiceImpl.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> allUsers = crudServiceImpl.getAllUsers();

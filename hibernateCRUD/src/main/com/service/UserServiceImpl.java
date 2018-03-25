@@ -10,19 +10,26 @@ import helper.DBHelper;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private UserDao userDao;
+    private static UserDao userDao;
+    private static UserService userService = null;
 
-    public UserServiceImpl(){
-        init();
-    }
-
-    public void init(){
+    static {
         try {
             userDao = new UserDaoFactory().getUserDaoImpl();
         } catch (UnknownDaoType unknownDaoType) {
             unknownDaoType.printStackTrace();
         }
     }
+
+    private UserServiceImpl(){}
+
+    public static UserService getInstance(){
+        if(userService == null){
+            userService = new UserServiceImpl();
+        }
+        return userService;
+    }
+
 
     public List<User> getAllUsers(){
         return userDao.getAllUsers();
