@@ -1,8 +1,8 @@
-package servlets;
+package servlet;
 
-import entities.User;
-import services.UserService;
-import services.UserServiceImpl;
+import entitie.User;
+import service.UserService;
+import service.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,8 +20,8 @@ public class ShowUsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> allUsers = crudServiceImpl.getAllUsers();
-        List<String> list_login = new ArrayList<String>();
-        List<Integer> list_ids = new ArrayList<Integer>();
+        List<String> list_login = new ArrayList<>();
+        List<Integer> list_ids = new ArrayList<>();
 
         req.setAttribute("users", allUsers);
 

@@ -1,8 +1,8 @@
-package servlets;
+package servlet;
 
-import entities.User;
-import services.UserService;
-import services.UserServiceImpl;
+import entitie.User;
+import service.UserService;
+import service.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

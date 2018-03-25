@@ -33,7 +33,7 @@
         </tbody>
 
     </table>
-    <a href="add.jsp">Add</a>
+    <a href="/add">Add</a>
 
 </body>
 </html>

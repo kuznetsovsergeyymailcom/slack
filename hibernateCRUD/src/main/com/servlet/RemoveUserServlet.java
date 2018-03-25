@@ -1,7 +1,7 @@
-package servlets;
+package servlet;
 
-import services.UserService;
-import services.UserServiceImpl;
+import service.UserService;
+import service.UserServiceImpl;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

@@ -1,6 +1,6 @@
 package dao;
 
-import entities.User;
+import entitie.User;
 
 import java.io.FileInputStream;
 import java.io.IOException;

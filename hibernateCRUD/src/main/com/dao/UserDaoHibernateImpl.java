@@ -1,6 +1,6 @@
 package dao;
 
-import entities.User;
+import entitie.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
