@@ -9,4 +9,5 @@ public interface UserDao {
     void editUser(int id, User user);
     User getUser(int id);
     void removeUser(int id);
+
 }

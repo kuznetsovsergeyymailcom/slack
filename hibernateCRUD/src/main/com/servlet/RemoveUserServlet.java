@@ -12,7 +12,7 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/remove")
 public class RemoveUserServlet extends HttpServlet{
-    UserService crudServiceImpl = new UserServiceImpl();
+    private UserService crudServiceImpl = new UserServiceImpl();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String id_from_req = req.getParameter("id");

@@ -3,11 +3,27 @@ package service;
 import dao.UserDao;
 import dao.UserDaoHibernateImpl;
 import entitie.User;
+import exception.UnknownDaoType;
+import factory.UserDaoFactory;
+import helper.DBHelper;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private UserDao userDao = new UserDaoHibernateImpl();
+    private UserDao userDao;
+
+    public UserServiceImpl(){
+        init();
+    }
+
+    public void init(){
+        try {
+            userDao = new UserDaoFactory().getUserDaoImpl();
+        } catch (UnknownDaoType unknownDaoType) {
+            unknownDaoType.printStackTrace();
+        }
+    }
+
     public List<User> getAllUsers(){
         return userDao.getAllUsers();
     }
