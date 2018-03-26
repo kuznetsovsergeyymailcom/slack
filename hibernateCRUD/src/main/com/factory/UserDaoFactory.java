@@ -25,9 +25,16 @@ public class UserDaoFactory {
     public UserDao getUserDaoImpl() throws UnknownDaoType {
         String dao = properties.getProperty("dao");
         switch(dao){
-            case "hibernate": return new UserDaoHibernateImpl();
-            case "jdbc": return new UserDaoJdbcImpl();
+            case "hibernate": return getUserDaoHibernateInstance();
+            case "jdbc": return getUserDaoJdbcInstance();
             default: throw new UnknownDaoType("Unknown type of dao excess object");
         }
+    }
+
+    private UserDao getUserDaoHibernateInstance(){
+        return new UserDaoHibernateImpl();
+    }
+    private UserDao getUserDaoJdbcInstance(){
+        return new UserDaoJdbcImpl();
     }
 }
