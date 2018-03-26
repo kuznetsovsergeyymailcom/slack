@@ -29,7 +29,7 @@ public class UpdateUserServlet extends HttpServlet{
         int id = Integer.parseInt(ids);
 
         List<Integer> list_of_ids = (List<Integer>)req.getSession().getAttribute("ids");
-        if(list_of_ids.contains(id) || this.id != id){
+        if(this.id != id){
             resp.sendRedirect("users");
             return;
         }

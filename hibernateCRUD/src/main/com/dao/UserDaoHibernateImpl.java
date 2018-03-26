@@ -63,6 +63,7 @@ public class UserDaoHibernateImpl implements UserDao{
             user1.setName(user.getName());
             user1.setLogin(user.getLogin());
             user1.setPassword(user.getPassword());
+            session.update(user1);
             session.getTransaction().commit();
 
         }finally {

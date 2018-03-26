@@ -6,7 +6,7 @@
     <title>Update user</title>
 </head>
 <body>
-    <form action="update" method="post">
+    <form action="/update" method="post">
         <table border="1">
             <thead>
                 <tr>
