@@ -4,16 +4,16 @@
 <html>
 <head>
     <title>Users</title>
-    <link rel="stylesheet" type="text/sources.css" href="/css/style.css">
 </head>
 <body>
     <table border="2">
         <thead>
             <tr>
-                <th>id</th>
-                <th>name</th>
-                <th>password</th>
-                <th>login</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Password</th>
+                <th>Login</th>
+                <th>Role</th>
                 <th>Edit</th>
                 <th>Remove</th>
             </tr>
@@ -25,15 +25,17 @@
                 <td>${user.name}</td>
                 <td>${user.password}</td>
                 <td>${user.login}</td>
-                <td align="center"><a href="/update?id=${user.id}">Update</a></td>
-                <td align="center"><a href="/remove?id=${user.id}">Remove</a></td>
+                <td>${user.role}</td>
+                <td align="center"><a href="/admin/update?id=${user.id}">Update</a></td>
+                <td align="center"><a href="/admin/remove?id=${user.id}">Remove</a></td>
             </tr>
         </c:forEach>
 
         </tbody>
 
     </table>
-    <a href="/add">Add</a>
-
+    <a href="/admin/add">Add</a>
+    <br/>
+    <a href="/logout">Logout</a>
 </body>
 </html>

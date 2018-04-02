@@ -5,18 +5,27 @@ import dao.UserDaoHibernateImpl;
 import dao.UserDaoJdbcImpl;
 import entitie.User;
 import exception.UnknownDaoType;
+import helper.DBHelper;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import java.io.InputStream;
+import java.sql.Connection;
 import java.util.Properties;
 
 public class UserDaoFactory {
     private static Properties properties = new Properties();
 
+
     public UserDaoFactory(){
         try {
-            properties.load(new FileInputStream("..\\webapps\\ROOT\\WEB-INF\\classes\\dao.properties"));
+            InputStream resourceAsStream = UserDaoFactory.class.getClassLoader().getResourceAsStream("dao.properties");
+            properties.load(resourceAsStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,9 +41,14 @@ public class UserDaoFactory {
     }
 
     private UserDao getUserDaoHibernateInstance(){
-        return new UserDaoHibernateImpl();
+        Configuration configuration = DBHelper.getInstance().getConfiguration();
+        SessionFactory sessionFactory = configuration.buildSessionFactory(
+                    new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build());
+
+        return new UserDaoHibernateImpl(sessionFactory);
     }
     private UserDao getUserDaoJdbcInstance(){
-        return new UserDaoJdbcImpl();
+        Connection connection = DBHelper.getInstance().getConnection();
+        return new UserDaoJdbcImpl(connection);
     }
 }

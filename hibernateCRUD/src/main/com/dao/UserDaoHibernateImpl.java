@@ -1,84 +1,94 @@
 package dao;
 
 import entitie.User;
-import helper.DBHelper;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
-import java.util.TimeZone;
 
 public class UserDaoHibernateImpl implements UserDao{
-    private DBHelper dbHelper = DBHelper.getInstance();
-    private Configuration configuration;
+    private static Logger logger = Logger.getLogger(UserDaoHibernateImpl.class);
     private SessionFactory sessionFactory;
 
-    public UserDaoHibernateImpl(){
-        configuration = dbHelper.getConfiguration();
-        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(this.configuration.getProperties()).build();
-
-        sessionFactory = this.configuration.buildSessionFactory(serviceRegistry);
-        sessionFactory.withOptions().jdbcTimeZone(TimeZone.getTimeZone("UTC"));
+    public UserDaoHibernateImpl(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public List<User> getAllUsers() {
         Session session = sessionFactory.openSession();
-        List<User> from_user;
+        List<User> fromUser = null;
+        Transaction transaction = session.beginTransaction();
         try{
-            session.beginTransaction();
-            from_user = session.createQuery("from User").getResultList();
-            session.getTransaction().commit();
+            fromUser = session.createQuery("from User").getResultList();
+            transaction.commit();
+            logger.info("showing all users");
+        }catch(Exception e){
+            logger.error("Error on method getAllUsers: " + e.getMessage());
+            transaction.rollback();
+
         }finally {
             session.close();
         }
 
-        return from_user;
+        return fromUser;
     }
 
     @Override
-    public void addUser(String user_name, String user_password, String user_login) {
+    public void addUser(String userName, String userPassword, String userLogin, String role) {
         Session session = sessionFactory.openSession();
-        User user = new User(user_name, user_password, user_login);
+        User user = new User(userName, userPassword, userLogin, role);
+        Transaction transaction = session.beginTransaction();
 
         try{
-            session.beginTransaction();
             session.save(user);
-            session.getTransaction().commit();
+            transaction.commit();
+            logger.info("Saving new user: " + user);
 
+        }catch(Exception e){
+            logger.error("Error on method add new user: " + e.getMessage());
+            transaction.rollback();
         }finally {
             session.close();
         }
     }
 
     @Override
-    public void editUser(int id, User user) {
-        Session session = sessionFactory.openSession();
-        try{
-            session.beginTransaction();
-            User user1 = session.get(User.class, id);
-            user1.setName(user.getName());
-            user1.setLogin(user.getLogin());
-            user1.setPassword(user.getPassword());
-            session.update(user1);
-            session.getTransaction().commit();
+    public void updateUser(User user){
+        logger.info("User operation edit user: " + user);
 
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            session.update(user);
+
+            transaction.commit();
+            logger.info("User operation edit user, updated info: " + user);
+
+        }catch(Exception e){
+            logger.error("Error on method edit user: " + e.getMessage());
+            transaction.rollback();
         }finally {
             session.close();
         }
+
     }
 
     @Override
     public User getUser(int id) {
         Session session = sessionFactory.openSession();
-        User user;
+        Transaction transaction = session.beginTransaction();
+        User user = null;
         try{
-            session.beginTransaction();
             user = session.get(User.class, id);
-            session.getTransaction().commit();
+            transaction.commit();
+            logger.info("User operation, get user" + user);
+        }catch(Exception e){
+            logger.error("Error on method get user: " + e.getMessage());
+            transaction.rollback();
         }finally {
             session.close();
         }
@@ -89,16 +99,40 @@ public class UserDaoHibernateImpl implements UserDao{
     @Override
     public void removeUser(int id) {
         Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
         User user;
         try{
             user = session.get(User.class, id);
-            session.beginTransaction();
             session.delete(user);
-            session.getTransaction().commit();
-
+            transaction.commit();
+            logger.info("User operation, remove user" + user);
+        }catch(Exception e){
+            logger.error("Error on method remove user: " + e.getMessage());
+            transaction.rollback();
         }finally {
             session.close();
         }
     }
 
+    @Override
+    public User getUser(String name) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        User user = null;
+        try{
+            Query query = session.createQuery("from User where name = :name");
+            query.setParameter("name", name);
+            user = (User)query.uniqueResult();
+
+            transaction.commit();
+            logger.info("User operation, get user" + user);
+        }catch(Exception e){
+            logger.error("Error on method get user: " + e.getMessage());
+            transaction.rollback();
+        }finally {
+            session.close();
+        }
+
+        return user;
+    }
 }

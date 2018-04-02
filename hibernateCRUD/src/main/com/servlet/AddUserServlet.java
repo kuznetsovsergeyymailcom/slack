@@ -1,5 +1,6 @@
 package servlet;
 
+import org.apache.log4j.Logger;
 import service.UserService;
 import service.UserServiceImpl;
 
@@ -11,28 +12,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/add")
+@WebServlet(urlPatterns = "/admin/add")
 public class AddUserServlet extends HttpServlet {
+    private Logger logger = Logger.getLogger(AddUserServlet.class);
     private UserService crudServiceImpl = UserServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("add.jsp");
+        req.getRequestDispatcher("/admin/add.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String name = req.getParameter("name");
         String password = req.getParameter("password");
         String login = req.getParameter("login");
+        String role = req.getParameter("role");
 
-        List<String> logins = (List<String>) req.getSession().getAttribute("logins");
-
-        if(!name.isEmpty() && !password.isEmpty() && !login.isEmpty() && !logins.contains(login)){
-            this.crudServiceImpl.addUser(name,password,login);
+        if (!name.isEmpty() && !password.isEmpty() && !login.isEmpty()) {
+            crudServiceImpl.addUser(name, password, login, role);
+            logger.warn("Attempt to add user with empty fields");
         }
 
-        resp.sendRedirect("users");
+        resp.sendRedirect("/admin");
     }
 }

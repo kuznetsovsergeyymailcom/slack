@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface UserDao {
     List<User> getAllUsers();
-    void addUser(String user_name, String user_password, String user_login);
-    void editUser(int id, User user);
+    void addUser(String userName, String userPassword, String userLogin, String role);
+    void updateUser(User user);
     User getUser(int id);
     void removeUser(int id);
-
+    User getUser(String name);
 }

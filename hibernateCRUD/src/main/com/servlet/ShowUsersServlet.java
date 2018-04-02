@@ -1,6 +1,7 @@
 package servlet;
 
 import entitie.User;
+import org.apache.log4j.Logger;
 import service.UserService;
 import service.UserServiceImpl;
 
@@ -14,27 +15,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/")
+@WebServlet(urlPatterns = "/admin")
 public class ShowUsersServlet extends HttpServlet {
+    private Logger logger = Logger.getLogger(ShowUsersServlet.class);
     private UserService crudServiceImpl = UserServiceImpl.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<User> allUsers = crudServiceImpl.getAllUsers();
-        List<String> list_login = new ArrayList<>();
-        List<Integer> list_ids = new ArrayList<>();
-
-        req.setAttribute("users", allUsers);
-
-        for(User user : allUsers){
-            list_ids.add(user.getId());
-            list_login.add(user.getLogin());
-        }
-
-        req.getSession().setAttribute("logins", list_login);
-        req.getSession().setAttribute("ids", list_ids);
-
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("showUsers.jsp");
-        requestDispatcher.forward(req, resp);
+        System.out.println("ShowUsersServlet do get method");
+        doPost(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        logger.info("Show users servlet do post method");
+        List<User> allUsers = crudServiceImpl.getAllUsers();
+
+        logger.info("Show users servlet do post method, session has admin attribute, equals to yes");
+        req.getSession().setAttribute("users", allUsers);
+        req.getRequestDispatcher("/admin/showUsers.jsp").forward(req, resp);
+
+    }
 }
