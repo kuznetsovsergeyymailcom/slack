@@ -15,12 +15,13 @@ public class User {
     private String password;
     @Column(name = "login")
     private String login;
-    @Column(name= "role", columnDefinition = "user")
+    @Column(name = "role", columnDefinition = "user")
     private String role = "user";
 
-    public User(){}
+    public User() {
+    }
 
-    public User(int id){
+    public User(int id) {
         this.id = id;
         this.name = "defaultName";
         this.password = "defaultPassword";
@@ -34,6 +35,7 @@ public class User {
         this.login = login;
         this.role = role;
     }
+
     public User(int id, String name, String password, String login, String role) {
         this.id = id;
         this.name = name;

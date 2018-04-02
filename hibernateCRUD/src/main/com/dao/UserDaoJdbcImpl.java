@@ -62,7 +62,7 @@ public class UserDaoJdbcImpl implements UserDao {
     public void addUser(String userName, String userPassword, String userLogin, String role) {
 
         String sql = "insert into users (name,password,login,role) values('" + userName + "','" + userPassword + "','"
-                + userLogin + "', '"+role+"')";
+                + userLogin + "', '" + role + "')";
         updateSql(sql);
     }
 

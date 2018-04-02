@@ -22,7 +22,7 @@ public class UserDaoFactory {
     private static Properties properties = new Properties();
 
 
-    public UserDaoFactory(){
+    public UserDaoFactory() {
         try {
             InputStream resourceAsStream = UserDaoFactory.class.getClassLoader().getResourceAsStream("dao.properties");
             properties.load(resourceAsStream);
@@ -33,21 +33,25 @@ public class UserDaoFactory {
 
     public UserDao getUserDaoImpl() throws UnknownDaoType {
         String dao = properties.getProperty("dao");
-        switch(dao){
-            case "hibernate": return getUserDaoHibernateInstance();
-            case "jdbc": return getUserDaoJdbcInstance();
-            default: throw new UnknownDaoType("Unknown type of dao excess object");
+        switch (dao) {
+            case "hibernate":
+                return getUserDaoHibernateInstance();
+            case "jdbc":
+                return getUserDaoJdbcInstance();
+            default:
+                throw new UnknownDaoType("Unknown type of dao excess object");
         }
     }
 
-    private UserDao getUserDaoHibernateInstance(){
+    private UserDao getUserDaoHibernateInstance() {
         Configuration configuration = DBHelper.getInstance().getConfiguration();
         SessionFactory sessionFactory = configuration.buildSessionFactory(
-                    new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build());
+                new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build());
 
         return new UserDaoHibernateImpl(sessionFactory);
     }
-    private UserDao getUserDaoJdbcInstance(){
+
+    private UserDao getUserDaoJdbcInstance() {
         Connection connection = DBHelper.getInstance().getConnection();
         return new UserDaoJdbcImpl(connection);
     }

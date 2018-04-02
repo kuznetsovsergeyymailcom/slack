@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/update", initParams = {@WebInitParam(name="jsp-file", value="/admin/update.jsp")})
+@WebServlet(urlPatterns = "/admin/update", initParams = {@WebInitParam(name = "jsp-file", value = "/admin/update.jsp")})
 public class UpdateUserServlet extends HttpServlet {
     private Logger logger = Logger.getLogger(UpdateUserServlet.class);
     private UserService crudServiceImpl = UserServiceImpl.getInstance();

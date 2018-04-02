@@ -34,7 +34,7 @@ public class AdminFilter implements Filter {
         System.out.println("Path: " + beforeLast);
 
         User user = (User) ((HttpServletRequest) req).getSession().getAttribute("user");
-        if(beforeLast.equals("/admin") || afterLast.equals("admin")){
+        if (beforeLast.equals("/admin") || afterLast.equals("admin")) {
             if (user.getRole().equals("admin")) {
                 filterChain.doFilter(req, resp);
             } else {
@@ -42,7 +42,7 @@ public class AdminFilter implements Filter {
                 ((HttpServletRequest) req).getSession().removeAttribute("user");
                 response.sendRedirect("/");
             }
-        }else{
+        } else {
             filterChain.doFilter(req, resp);
         }
 

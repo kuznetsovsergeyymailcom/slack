@@ -12,6 +12,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/user")
 public class UserServlet extends HttpServlet {
     private Logger logger = Logger.getLogger(UserServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("User servlet do get method");

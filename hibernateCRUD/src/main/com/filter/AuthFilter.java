@@ -43,7 +43,7 @@ public class AuthFilter implements Filter {
 
         logger.warn("User not authorized, go back to login page");
         ((HttpServletRequest) req).getSession().removeAttribute("user");
-        ((HttpServletResponse)resp).sendRedirect("/");
+        ((HttpServletResponse) resp).sendRedirect("/");
     }
 
     @Override

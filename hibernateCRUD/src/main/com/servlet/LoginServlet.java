@@ -24,14 +24,14 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         User user = crudServiceImpl.getUser(name);
-        if(user != null){
-            if(user.getPassword().equals(password)){
+        if (user != null) {
+            if (user.getPassword().equals(password)) {
                 req.getSession().setAttribute("user", user);
-                if(user.getRole().equals("admin")){
+                if (user.getRole().equals("admin")) {
                     resp.sendRedirect("/admin");
                     logger.info("user authorized, forward to /admin/users");
                     return;
-                }else{
+                } else {
                     resp.sendRedirect("/user");
                     return;
                 }
