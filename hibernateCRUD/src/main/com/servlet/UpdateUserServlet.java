@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/update", initParams = {@WebInitParam(name = "jsp-file", value = "/admin/update.jsp")})
+@WebServlet(urlPatterns = "/admin/update")
 public class UpdateUserServlet extends HttpServlet {
     private Logger logger = Logger.getLogger(UpdateUserServlet.class);
     private UserService crudServiceImpl = UserServiceImpl.getInstance();
@@ -39,6 +39,12 @@ public class UpdateUserServlet extends HttpServlet {
             String password = req.getParameter("password");
             String login = req.getParameter("login");
             String role = req.getParameter("role");
+
+            if(name == null || password == null || login == null || role == null){
+                logger.warn("Attempt to update user, request has no necessary parameters");
+                resp.sendRedirect("/");
+                return;
+            }
 
             if (this.id != id || name.isEmpty() || password.isEmpty() || login.isEmpty()) {
                 logger.warn("Attempt to update user, one of fields is empty");
