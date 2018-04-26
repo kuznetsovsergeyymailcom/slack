@@ -20,11 +20,11 @@
             <tbody>
                 <tr>
                     <input type="hidden" name="id" value="${editUser.id}">
-                    <td><input type="text" placeholder="${editUser.id}" readonly></td>
-                    <td><input type="text" name="name" placeholder="${editUser.name}"></td>
-                    <td><input type="text" name="password" placeholder="${editUser.password}"></td>
-                    <td><input type="text" name="login" placeholder="${editUser.login}"></td>
-                    <td><select name="role">
+                    <td><input type="text" value="${editUser.id}" readonly></td>
+                    <td><input type="text" value="${editUser.name}" name="name"></td>
+                    <td><input type="text" value="${editUser.password}" name="password"></td>
+                    <td><input type="text" value="${editUser.login}" name="login"></td>
+                    <td><select name="roles", multiple="multiple">
                         <option value="user" selected>user</option>
                         <option value="admin">admin</option></select>
                     </td>
@@ -33,5 +33,7 @@
             </tbody>
         </table>
     </form>
+    <br/>
+    <p style="color: red">${message}</p>
 </body>
 </html>

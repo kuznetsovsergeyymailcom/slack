@@ -1,7 +1,7 @@
 package service;
 
 import dao.UserDao;
-import entitie.User;
+import model.User;
 import exception.UnknownDaoType;
 import factory.UserDaoFactory;
 
@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
         return userDao.getAllUsers();
     }
 
-    public void addUser(String userName, String userPassword, String userLogin, String role) {
-        userDao.addUser(userName, userPassword, userLogin, role);
+    public void addUser(String userName, String userPassword, String userLogin, String[] roles) {
+        userDao.addUser(userName, userPassword, userLogin, roles);
     }
 
     public void updateUser(User user) {

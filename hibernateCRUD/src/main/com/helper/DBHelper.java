@@ -1,10 +1,8 @@
 package helper;
 
-import entitie.User;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import model.User;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
+import role.Role;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,9 +68,11 @@ public class DBHelper {
         initHibernateProperties();
 
         Configuration configuration = new Configuration();
-        configuration.configure().addProperties(properties);
+//        configuration.configure("hibernate.cfg.xml");
+//        configuration.configure("hibernate.cfg.xml").addProperties(properties);
+        configuration.setProperties(properties);
         configuration.addAnnotatedClass(User.class);
-
+        configuration.addAnnotatedClass(Role.class);
 
         return configuration;
     }

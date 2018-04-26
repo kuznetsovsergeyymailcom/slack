@@ -21,13 +21,16 @@
         </thead>
         <tbody>
             <tr>
-                <td><input type="text" name="name"></td>
-                <td><input type="password" name="password"></td>
+                <td><input type="text" name="name" value="${user.name}"></td>
+                <td><input type="password" name="password" value="${user.password}"></td>
             </tr>
         </tbody>
     </table>
+
     <br/>
     <input type="submit" value="Send">
+    <br/>
+    <p style="color: red">${message}</p>
 </form>
 </body>
 </html>

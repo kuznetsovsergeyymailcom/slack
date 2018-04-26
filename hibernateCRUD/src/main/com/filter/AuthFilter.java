@@ -1,10 +1,8 @@
 package filter;
 
-import entitie.User;
-import org.apache.commons.lang3.StringUtils;
+import model.User;
 import org.apache.log4j.Logger;
-import service.UserService;
-import service.UserServiceImpl;
+import role.Role;
 import servlet.AddUserServlet;
 
 import javax.servlet.*;
@@ -12,8 +10,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Iterator;
 
-@WebFilter(urlPatterns = "/*")
+@WebFilter(urlPatterns = {"/admin/*","/user/*"})
 public class AuthFilter implements Filter {
     private Logger logger = Logger.getLogger(AddUserServlet.class);
 
@@ -24,30 +23,25 @@ public class AuthFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
-        logger.info("Auth logger started ... ");
-        String requestURI = ((HttpServletRequest) req).getRequestURI();
-        String afterLast = StringUtils.substringAfterLast(requestURI, "/");
 
-        if (afterLast.isEmpty() || afterLast.equals("login")) {
-            logger.info("Auth logger empty or going to login page ... ");
-            filterChain.doFilter(req, resp);
-            return;
-        }
-
+        logger.info("Auth filter .................................................");
+        boolean isAdmin = false;
         User user = (User) ((HttpServletRequest) req).getSession().getAttribute("user");
-        System.out.println("Auth filter, User: " + user);
+
         if (user != null) {
+            logger.info("Auth filter: User " + user + " authorized");
             filterChain.doFilter(req, resp);
             return;
         }
 
         logger.warn("User not authorized, go back to login page");
-        ((HttpServletRequest) req).getSession().removeAttribute("user");
+        ((HttpServletRequest)req).getSession().setAttribute("message", "User name or password invalid");
         ((HttpServletResponse) resp).sendRedirect("/");
     }
 
     @Override
     public void destroy() {
-
+        logger.info("auth logger destroy....");
     }
+
 }

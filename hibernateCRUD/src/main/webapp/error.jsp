@@ -14,5 +14,9 @@
     Error page
     <br/>
     <a href="/">Go to login page</a>
+    <br/>
+    <a href="/user">Go to main page of user</a>
+    <br/>
+    <p style="color: red">${message}</p>
 </body>
 </html>

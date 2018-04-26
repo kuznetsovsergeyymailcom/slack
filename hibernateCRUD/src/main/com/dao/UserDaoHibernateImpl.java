@@ -1,6 +1,6 @@
 package dao;
 
-import entitie.User;
+import model.User;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -38,9 +38,9 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
-    public void addUser(String userName, String userPassword, String userLogin, String role) {
+    public void addUser(String userName, String userPassword, String userLogin, String[] roles) {
         Session session = sessionFactory.openSession();
-        User user = new User(userName, userPassword, userLogin, role);
+        User user = new User(userName, userPassword, userLogin, roles);
         Transaction transaction = session.beginTransaction();
 
         try {
@@ -63,7 +63,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            session.update(user);
+            session.saveOrUpdate(user);
 
             transaction.commit();
             logger.info("User operation edit user, updated info: " + user);

@@ -1,6 +1,11 @@
-package entitie;
+package model;
+
+import role.Role;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -15,8 +20,12 @@ public class User {
     private String password;
     @Column(name = "login")
     private String login;
-    @Column(name = "role", columnDefinition = "user")
-    private String role = "user";
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "JOIN_USER_ROLE",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     public User() {
     }
@@ -26,22 +35,22 @@ public class User {
         this.name = "defaultName";
         this.password = "defaultPassword";
         this.login = "defaultLogin";
-        this.role = "user";
+
     }
 
-    public User(String name, String password, String login, String role) {
+    public User(String name, String password, String login, String[] roles) {
         this.name = name;
         this.password = password;
         this.login = login;
-        this.role = role;
+        this.setRolesFromStringArray(roles);
     }
 
-    public User(int id, String name, String password, String login, String role) {
+    public User(int id, String name, String password, String login, String[] roles) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.login = login;
-        this.role = role;
+        this.setRolesFromStringArray(roles);
     }
 
     public int getId() {
@@ -76,12 +85,28 @@ public class User {
         this.login = login;
     }
 
-    public String getRole() {
-        return role;
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    private void setRolesFromStringArray(String[] array){
+        Role role;
+        Set<Role> roles = new HashSet<>();
+        for(String str : array){
+            role = new Role();
+            if(str.equalsIgnoreCase("admin")){
+                role.setRole("admin");
+            }else{
+                role.setRole("user");
+            }
+            roles.add(role);
+        }
+        this.setRoles(roles);
     }
 
     @Override
@@ -91,7 +116,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", login='" + login + '\'' +
-                ", role='" + role + '\'' +
+                ", roles=" + Arrays.toString(roles.toArray()) +
                 '}';
     }
 }

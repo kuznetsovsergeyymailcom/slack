@@ -1,13 +1,13 @@
 package dao;
 
-import entitie.User;
+import model.User;
 
 import java.util.List;
 
 public interface UserDao {
     List<User> getAllUsers();
 
-    void addUser(String userName, String userPassword, String userLogin, String role);
+    void addUser(String userName, String userPassword, String userLogin, String[] roles);
 
     void updateUser(User user);
 

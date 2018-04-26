@@ -25,7 +25,7 @@
                 <td>${user.name}</td>
                 <td>${user.password}</td>
                 <td>${user.login}</td>
-                <td>${user.role}</td>
+                <td>${user.roles}</td>
                 <td align="center"><a href="/admin/update?id=${user.id}">Update</a></td>
                 <td align="center"><a href="/admin/remove?id=${user.id}">Remove</a></td>
             </tr>
@@ -37,5 +37,7 @@
     <a href="/admin/add">Add</a>
     <br/>
     <a href="/logout">Logout</a>
+    <br/>
+    <p style="color: red">${message}</p>
 </body>
 </html>
