@@ -17,7 +17,7 @@ public class UserFilter implements Filter {
     private Logger logger = Logger.getLogger(AddUserServlet.class);
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         logger.info("User filter init");
     }
 

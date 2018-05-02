@@ -27,8 +27,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User() {
-    }
+    public User() {}
 
     public User(int id) {
         this.id = id;
@@ -36,6 +35,20 @@ public class User {
         this.password = "defaultPassword";
         this.login = "defaultLogin";
 
+    }
+
+    public User(int id, String name, String password, String login) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.login = login;
+    }
+
+    public User(String name, String password, String login, Set<Role> roles) {
+        this.name = name;
+        this.password = password;
+        this.login = login;
+        this.roles = roles;
     }
 
     public User(String name, String password, String login, String[] roles) {
@@ -94,19 +107,20 @@ public class User {
         this.roles = roles;
     }
 
-    private void setRolesFromStringArray(String[] array){
-        Role role;
-        Set<Role> roles = new HashSet<>();
-        for(String str : array){
-            role = new Role();
-            if(str.equalsIgnoreCase("admin")){
-                role.setRole("admin");
-            }else{
-                role.setRole("user");
-            }
-            roles.add(role);
-        }
-        this.setRoles(roles);
+    private void setRolesFromStringArray(String[] array) {
+//        Role role;
+//        Set<Role> roles = new HashSet<>();
+//        for (String str : array) {
+//            role = new Role();
+//            if (str.equalsIgnoreCase("admin")) {
+//                role.setRole("admin");
+//            } else {
+//                role.setRole("user");
+//            }
+//            roles.add(role);
+//        }
+//        this.setRoles(roles);
+
     }
 
     @Override

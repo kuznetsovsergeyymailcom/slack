@@ -6,8 +6,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import role.Role;
 
 import java.util.List;
+import java.util.Set;
 
 public class UserDaoHibernateImpl implements UserDao {
     private static Logger logger = Logger.getLogger(UserDaoHibernateImpl.class);
@@ -38,7 +40,7 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
-    public void addUser(String userName, String userPassword, String userLogin, String[] roles) {
+    public void addUser(String userName, String userPassword, String userLogin, Set<Role> roles) {
         Session session = sessionFactory.openSession();
         User user = new User(userName, userPassword, userLogin, roles);
         Transaction transaction = session.beginTransaction();
@@ -63,7 +65,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            session.saveOrUpdate(user);
+            session.update(user);
 
             transaction.commit();
             logger.info("User operation edit user, updated info: " + user);
@@ -103,6 +105,11 @@ public class UserDaoHibernateImpl implements UserDao {
         User user;
         try {
             user = session.get(User.class, id);
+            Set<Role> roles = user.getRoles();
+            for(Role role : roles){
+                session.delete(role);
+            }
+
             session.delete(user);
             transaction.commit();
             logger.info("User operation, remove user" + user);
@@ -113,6 +120,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.close();
         }
     }
+
 
     @Override
     public User getUser(String name) {

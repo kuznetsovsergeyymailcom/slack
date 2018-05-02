@@ -24,7 +24,7 @@ public class AddUserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().removeAttribute("message");
         String name = req.getParameter("name");
         String password = req.getParameter("password");

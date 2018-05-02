@@ -46,7 +46,7 @@ public class UpdateUserServlet extends HttpServlet {
                 return;
             }
 
-            crudServiceImpl.updateUser(new User(id, name, password, login, roles));
+            crudServiceImpl.updateUser(id, name, password, login, roles);
         } else {
             logger.warn("Attempt to update not existed user");
             try {
