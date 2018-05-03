@@ -14,34 +14,14 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class UserDaoFactory {
-    private static Properties properties = new Properties();
 
-
-    public UserDaoFactory() {
-        try {
-            InputStream resourceAsStream = UserDaoFactory.class.getClassLoader().getResourceAsStream("dao.properties");
-            properties.load(resourceAsStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public UserDao getUserDaoImpl() {
+        return getUserDaoHibernateInstance();
     }
 
-    public UserDao getUserDaoImpl() throws UnknownDaoType {
-        String dao = properties.getProperty("dao");
-        switch (dao) {
-            case "hibernate":
-                return getUserDaoHibernateInstance();
-
-            default:
-                throw new UnknownDaoType("Unknown type of dao excess object");
-        }
-    }
 
     private UserDao getUserDaoHibernateInstance() {
-        Configuration configuration = DBHelper.getInstance().getConfiguration();
-        SessionFactory sessionFactory = configuration.buildSessionFactory(
-                new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build());
-
+        SessionFactory sessionFactory = SessionFactoryBuilder.getSessionFactory();
         return new UserDaoHibernateImpl(sessionFactory);
     }
 }

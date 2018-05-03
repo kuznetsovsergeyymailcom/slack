@@ -53,10 +53,11 @@ public class AdminFilter implements Filter {
         logger.info("Admin filter destroy..");
 
     }
-    private boolean isAdminCheck(Iterator<Role> iterator){
+
+    private boolean isAdminCheck(Iterator<Role> iterator) {
         boolean admin = false;
-        while(iterator.hasNext()){
-            if("admin".equalsIgnoreCase(iterator.next().getRole())){
+        while (iterator.hasNext()) {
+            if ("admin".equalsIgnoreCase(iterator.next().getRole())) {
                 admin = true;
                 break;
             }

@@ -18,12 +18,23 @@ public class Role {
     private String role;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "JOIN_USER_ROLE", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @ManyToMany(mappedBy = "roles", cascade =
+            {
+                    CascadeType.DETACH,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH,
+                    CascadeType.PERSIST
+            })
     private Set<User> users;
 
 
-    public Role(){}
+    public Role() {
+    }
+
+
+    public Role(int id) {
+        this.id = id;
+    }
 
     public Role(String role) {
         this.role = role;

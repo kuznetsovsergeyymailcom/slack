@@ -18,7 +18,6 @@ public class RemoveUserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
         String reqId = req.getParameter("id");
 
         if (reqId.isEmpty()) {
@@ -26,6 +25,7 @@ public class RemoveUserServlet extends HttpServlet {
             resp.sendRedirect("/users");
             return;
         }
+
         int id = Integer.parseInt(req.getParameter("id"));
 
         if (crudServiceImpl.getUser(id) != null) {

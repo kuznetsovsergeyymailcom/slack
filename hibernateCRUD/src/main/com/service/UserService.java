@@ -1,15 +1,17 @@
 package service;
 
 import model.User;
+import role.Role;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
     List<User> getAllUsers();
 
     void addUser(String userName, String userPassword, String userLogin, String[] roles);
 
-    void updateUser(User user);
+    void updateUser(int id, String userName, String userPassword, String userLogin, String[] roles);
 
     User getUser(int id);
 
