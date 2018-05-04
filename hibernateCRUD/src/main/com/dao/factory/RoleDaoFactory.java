@@ -1,4 +1,4 @@
-package factory;
+package dao.factory;
 
 import dao.RoleDao;
 import dao.RoleDaoHibernateImpl;

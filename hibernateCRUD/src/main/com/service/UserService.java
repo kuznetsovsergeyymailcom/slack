@@ -1,7 +1,6 @@
 package service;
 
 import model.User;
-import role.Role;
 
 import java.util.List;
 import java.util.Set;
@@ -18,4 +17,6 @@ public interface UserService {
     void removeUser(int id);
 
     User getUser(String name);
+
+    Set<User> getUsersByRole(String name);
 }

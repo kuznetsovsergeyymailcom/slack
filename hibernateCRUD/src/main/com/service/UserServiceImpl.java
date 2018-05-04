@@ -1,31 +1,27 @@
 package service;
 
-import dao.RoleDao;
 import dao.UserDao;
-import factory.RoleDaoFactory;
 import model.User;
-import factory.UserDaoFactory;
-import role.Role;
+import dao.factory.UserDaoFactory;
+import model.Role;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class UserServiceImpl implements UserService, RoleService {
+public class UserServiceImpl implements UserService {
     private static UserDao userDao;
-    private static RoleDao roleDao;
     private static volatile UserService userService = null;
+    private static volatile RoleService roleService = null;
 
-    private UserServiceImpl() {
-    }
+    private UserServiceImpl() { }
 
     public static UserService getInstance() {
         if (userService == null) {
             synchronized (UserServiceImpl.class) {
                 if (userService == null) {
                     userService = new UserServiceImpl();
+                    roleService = RoleServiceImpl.getInstance();
                     userDao = new UserDaoFactory().getUserDaoImpl();
-                    roleDao = new RoleDaoFactory().getRoleDaoImpl();
                 }
             }
         }
@@ -38,25 +34,24 @@ public class UserServiceImpl implements UserService, RoleService {
     }
 
     public void addUser(String userName, String userPassword, String userLogin, String[] array) {
-        Set<Role> roles = getUserRoles(array);
+
+        Set<Role> roles = roleService.getUserRoles(array);
         userDao.addUser(userName, userPassword, userLogin, roles);
     }
 
     public void updateUser(int id, String userName, String userPassword, String userLogin, String[] array) {
         User user = new User(id, userName, userPassword, userLogin);
-        Set<Role> roles = getUserRoles(array);
+        Set<Role> roles = roleService.getUserRoles(array);
         user.setRoles(roles);
 
         userDao.updateUser(user);
     }
 
     public User getUser(int id) {
-
         return userDao.getUser(id);
     }
 
     public void removeUser(int id) {
-
         userDao.removeUser(id);
     }
 
@@ -65,27 +60,7 @@ public class UserServiceImpl implements UserService, RoleService {
     }
 
     @Override
-    public Role getRoleByName(String name) {
-
-        return roleDao.getRoleByName(name);
-    }
-
-    @Override
     public Set<User> getUsersByRole(String name) {
-
-        return roleDao.getUsersByRole(name);
-    }
-    private Set<Role> getUserRoles(String[] array){
-        Role role;
-        Set<Role> roles = new HashSet<>();
-        for (String str : array) {
-            if (str.equalsIgnoreCase("admin")) {
-                role = getRoleByName("admin");
-            } else {
-                role = getRoleByName("user");
-            }
-            roles.add(role);
-        }
-        return roles;
+        return userDao.getUsersByRole(name);
     }
 }

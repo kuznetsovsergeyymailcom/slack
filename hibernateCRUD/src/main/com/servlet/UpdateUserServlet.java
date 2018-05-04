@@ -16,7 +16,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/admin/update")
 public class UpdateUserServlet extends HttpServlet {
     private Logger logger = Logger.getLogger(UpdateUserServlet.class);
-    private UserService crudServiceImpl = UserServiceImpl.getInstance();
+    private UserService userService = UserServiceImpl.getInstance();
     private static int id = 0;
 
     @Override
@@ -33,20 +33,22 @@ public class UpdateUserServlet extends HttpServlet {
 
         int id = Integer.parseInt(ids);
 
-        if (crudServiceImpl.getUser(id) != null) {
+        if (userService.getUser(id) != null) {
             String name = req.getParameter("name");
             String password = req.getParameter("password");
             String login = req.getParameter("login");
             String[] roles = req.getParameterValues("roles");
 
+            // не работает в многопоточности
             if (this.id != id || name.isEmpty()) {
-                logger.warn("Attempt to update user, one of fields is empty");
-                req.getSession().setAttribute("message", "Field name cannot be empty or equals to another");
+                logger.warn("Attempt to update user, one of fields is empty, or user id was changed in middle level");
+                req.getSession().setAttribute("message", "Field name cannot be empty or equals to another, " +
+                        "or user id was changed in middle level");
                 resp.sendRedirect("/error");
                 return;
             }
 
-            crudServiceImpl.updateUser(id, name, password, login, roles);
+            userService.updateUser(id, name, password, login, roles);
         } else {
             logger.warn("Attempt to update not existed user");
             try {
@@ -72,14 +74,14 @@ public class UpdateUserServlet extends HttpServlet {
         int id = Integer.parseInt(ids);
 
 
-        if (crudServiceImpl.getUser(id) == null) {
+        if (userService.getUser(id) == null) {
             logger.warn("Attempt to update not existed user");
             req.getSession().setAttribute("message", "User with id: " + ids + " not found");
             resp.sendRedirect("/admin");
             return;
         }
 
-        User user = crudServiceImpl.getUser(id);
+        User user = userService.getUser(id);
         req.getSession().setAttribute("editUser", user);
 
         this.id = id;

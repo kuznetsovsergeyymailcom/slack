@@ -2,7 +2,7 @@ package servlet;
 
 import model.User;
 import org.apache.log4j.Logger;
-import role.Role;
+import model.Role;
 import service.UserService;
 import service.UserServiceImpl;
 

@@ -2,7 +2,7 @@ package filter;
 
 import model.User;
 import org.apache.log4j.Logger;
-import role.Role;
+import model.Role;
 import servlet.AddUserServlet;
 
 import javax.servlet.*;

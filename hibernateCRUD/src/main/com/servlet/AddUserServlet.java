@@ -15,7 +15,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/admin/add")
 public class AddUserServlet extends HttpServlet {
     private Logger logger = Logger.getLogger(AddUserServlet.class);
-    private UserService crudServiceImpl = UserServiceImpl.getInstance();
+    private UserService userService = UserServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,10 +32,10 @@ public class AddUserServlet extends HttpServlet {
         String[] role = req.getParameterValues("roles");
 
         if (!name.isEmpty() && !password.isEmpty() && !login.isEmpty()) {
-            User user = crudServiceImpl.getUser(name);
+            User user = userService.getUser(name);
             if (user == null) {
 
-                crudServiceImpl.addUser(name, password, login, role);
+                userService.addUser(name, password, login, role);
             } else {
                 req.getSession().setAttribute("message", "User with name: " + name + " cannot be added, it already exists!");
             }

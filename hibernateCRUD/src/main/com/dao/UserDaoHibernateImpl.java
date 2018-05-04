@@ -6,7 +6,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import role.Role;
+import model.Role;
+import service.RoleService;
+import service.RoleServiceImpl;
 
 import java.util.List;
 import java.util.Set;
@@ -138,5 +140,14 @@ public class UserDaoHibernateImpl implements UserDao {
         }
 
         return user;
+    }
+
+
+    @Override
+    public Set<User> getUsersByRole(String name) {
+        RoleService roleService = RoleServiceImpl.getInstance();
+        Set<User> users = roleService.getRoleByName(name).getUsers();
+
+        return users;
     }
 }

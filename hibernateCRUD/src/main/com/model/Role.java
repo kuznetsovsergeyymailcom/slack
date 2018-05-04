@@ -1,9 +1,6 @@
-package role;
-
-import model.User;
+package model;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
