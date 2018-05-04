@@ -7,6 +7,9 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import model.Role;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class RoleDaoHibernateImpl implements RoleDao {
 
     private static Logger logger = Logger.getLogger(UserDaoHibernateImpl.class);
@@ -39,4 +42,18 @@ public class RoleDaoHibernateImpl implements RoleDao {
         return role;
     }
 
+    @Override
+    public Set<Role> getUserRoles(String[] array) {
+        Role role;
+        Set<Role> roles = new HashSet<>();
+        for (String str : array) {
+            if (str.equalsIgnoreCase("admin")) {
+                role = getRoleByName("admin");
+            } else {
+                role = getRoleByName("user");
+            }
+            roles.add(role);
+        }
+        return roles;
+    }
 }

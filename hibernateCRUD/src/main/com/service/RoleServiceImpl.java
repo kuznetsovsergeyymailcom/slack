@@ -29,22 +29,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role getRoleByName(String name) {
-
         return roleDao.getRoleByName(name);
     }
 
     @Override
     public Set<Role> getUserRoles(String[] array){
-        Role role;
-        Set<Role> roles = new HashSet<>();
-        for (String str : array) {
-            if (str.equalsIgnoreCase("admin")) {
-                role = getRoleByName("admin");
-            } else {
-                role = getRoleByName("user");
-            }
-            roles.add(role);
-        }
-        return roles;
+        return roleDao.getUserRoles(array);
     }
 }
