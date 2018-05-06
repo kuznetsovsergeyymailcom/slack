@@ -18,5 +18,5 @@ public interface UserService {
 
     User getUser(String name);
 
-    Set<User> getUsersByRole(String name);
+    Set<User> convertArrayOfRolesToSetOfRoles(String name);
 }

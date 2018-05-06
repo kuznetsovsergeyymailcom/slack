@@ -21,7 +21,7 @@
         </thead>
         <tbody>
             <tr>
-                <td><input type="text" name="name" value="${user.name}"></td>
+                <td><input type="text" name="login" value="${user.login}"></td>
                 <td><input type="password" name="password" value="${user.password}"></td>
             </tr>
         </tbody>

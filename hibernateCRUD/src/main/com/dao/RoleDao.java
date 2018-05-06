@@ -6,6 +6,7 @@ import java.util.Set;
 
 public interface RoleDao {
     Role getRoleByName(String name);
-    Set<Role> getUserRoles(String[] array);
+
+    Set<Role> convertArrayOfRolesToSetOfRoles(String[] array);
 }
 

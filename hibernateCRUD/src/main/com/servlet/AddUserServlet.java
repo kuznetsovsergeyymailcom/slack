@@ -11,11 +11,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(urlPatterns = "/admin/add")
 public class AddUserServlet extends HttpServlet {
     private Logger logger = Logger.getLogger(AddUserServlet.class);
     private UserService userService = UserServiceImpl.getInstance();
+
+    private Map<String,String> map = new HashMap<>();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,12 +37,12 @@ public class AddUserServlet extends HttpServlet {
         String[] role = req.getParameterValues("roles");
 
         if (!name.isEmpty() && !password.isEmpty() && !login.isEmpty()) {
-            User user = userService.getUser(name);
+            User user = userService.getUser(login);
             if (user == null) {
 
                 userService.addUser(name, password, login, role);
             } else {
-                req.getSession().setAttribute("message", "User with name: " + name + " cannot be added, it already exists!");
+                req.getSession().setAttribute("message", "User with login: " + name + " cannot be added, it already exists!");
             }
             logger.warn("Attempt to add user with empty fields");
 

@@ -2,6 +2,8 @@ package model;
 
 import javax.persistence.*;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -13,9 +15,9 @@ public class User {
     private int id;
     @Column(name = "name")
     private String name;
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "login")
+    @Column(name = "login", unique = true, nullable = false)
     private String login;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade =
@@ -30,7 +32,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User() {}
+    public User() {
+    }
 
     public User(int id) {
         this.id = id;

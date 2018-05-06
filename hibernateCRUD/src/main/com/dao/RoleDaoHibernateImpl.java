@@ -43,7 +43,7 @@ public class RoleDaoHibernateImpl implements RoleDao {
     }
 
     @Override
-    public Set<Role> getUserRoles(String[] array) {
+    public Set<Role> convertArrayOfRolesToSetOfRoles(String[] array) {
         Role role;
         Set<Role> roles = new HashSet<>();
         for (String str : array) {

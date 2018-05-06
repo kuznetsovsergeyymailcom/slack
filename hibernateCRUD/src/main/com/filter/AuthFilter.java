@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/admin/*","/user/*"})
+@WebFilter(urlPatterns = {"/admin/*", "/user/*"})
 public class AuthFilter implements Filter {
     private Logger logger = Logger.getLogger(AddUserServlet.class);
 
@@ -33,7 +33,7 @@ public class AuthFilter implements Filter {
         }
 
         logger.warn("User not authorized, go back to login page");
-        ((HttpServletRequest)req).getSession().setAttribute("message", "User name or password invalid");
+        ((HttpServletRequest) req).getSession().setAttribute("message", "User name or password invalid");
         ((HttpServletResponse) resp).sendRedirect("/");
     }
 

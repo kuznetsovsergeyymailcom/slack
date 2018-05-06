@@ -28,7 +28,7 @@ public class Role {
     public Role() {
     }
 
-    public Role(int id){
+    public Role(int id) {
         this.id = id;
     }
 

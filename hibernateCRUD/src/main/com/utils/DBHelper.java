@@ -11,7 +11,8 @@ import java.util.Properties;
 public class DBHelper {
     private static Properties properties = new Properties();
 
-    private DBHelper() { }
+    private DBHelper() {
+    }
 
     private static void initHibernateProperties() {
         try {

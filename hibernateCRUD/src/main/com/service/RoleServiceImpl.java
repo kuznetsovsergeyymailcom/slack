@@ -2,10 +2,8 @@ package service;
 
 import dao.RoleDao;
 import dao.factory.RoleDaoFactory;
-import model.User;
 import model.Role;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class RoleServiceImpl implements RoleService {
@@ -17,7 +15,7 @@ public class RoleServiceImpl implements RoleService {
 
     public static RoleService getInstance() {
         if (roleService == null) {
-            synchronized (UserServiceImpl.class) {
+            synchronized (RoleServiceImpl.class) {
                 if (roleService == null) {
                     roleService = new RoleServiceImpl();
                     roleDao = new RoleDaoFactory().getRoleDaoImpl();
@@ -33,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Set<Role> getUserRoles(String[] array){
-        return roleDao.getUserRoles(array);
+    public Set<Role> getUserRoles(String[] array) {
+        return roleDao.convertArrayOfRolesToSetOfRoles(array);
     }
 }

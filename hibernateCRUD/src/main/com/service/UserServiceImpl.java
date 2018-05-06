@@ -4,6 +4,7 @@ import dao.UserDao;
 import model.User;
 
 import model.Role;
+
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +13,8 @@ public class UserServiceImpl implements UserService {
     private static volatile UserService userService = null;
     private static volatile RoleService roleService = null;
 
-    private UserServiceImpl() { }
+    private UserServiceImpl() {
+    }
 
     public static UserService getInstance() {
         if (userService == null) {
@@ -63,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<User> getUsersByRole(String name) {
+    public Set<User> convertArrayOfRolesToSetOfRoles(String name) {
         return userDao.getUsersByRole(name);
     }
 
